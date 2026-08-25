@@ -1,0 +1,2157 @@
+/* =========================
+   Birthday Wish App
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    background: linear-gradient(
+        135deg,
+        #ffd6e8,
+        #e4d7ff,
+        #d8f3ff
+    );
+}
+
+
+/* Main App */
+
+.app {
+    width: 100%;
+    max-width: 600px;
+
+    background: rgba(255, 255, 255, 0.9);
+
+    padding: 35px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.15);
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* Header */
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 32px;
+    color: #d63384;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #666;
+    font-size: 16px;
+}
+
+
+/* Form */
+
+.wish-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+    margin-top: 8px;
+}
+
+
+/* Inputs */
+
+input,
+select {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 2px solid #eee;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    background: white;
+
+    transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #d63384;
+
+    box-shadow: 0 0 0 3px rgba(214, 51, 132, 0.1);
+}
+
+
+/* Wish Style Buttons */
+
+.styles {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+}
+
+.style-btn {
+    padding: 12px;
+
+    border: 2px solid #eee;
+
+    border-radius: 12px;
+
+    background: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.style-btn:hover {
+    border-color: #d63384;
+
+    transform: translateY(-2px);
+
+    background: #fff0f6;
+}
+
+
+/* Generate Button */
+
+#generate-btn {
+    margin-top: 15px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #d63384,
+        #8e44ad
+    );
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+#generate-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 20px rgba(142, 68, 173, 0.3);
+}
+
+
+/* Birthday Wish Card */
+
+.wish-card {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        135deg,
+        #fff0f6,
+        #f5efff
+    );
+
+    border: 2px solid #f3d5e5;
+
+    text-align: center;
+}
+
+.wish-card h2 {
+    color: #d63384;
+
+    margin-bottom: 15px;
+}
+
+#wish-text {
+    color: #555;
+
+    line-height: 1.7;
+
+    font-size: 17px;
+
+    min-height: 60px;
+}
+
+
+/* Action Buttons */
+
+.actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.actions button {
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: #8e44ad;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    border: 1px solid #ddd;
+
+    transition: 0.3s;
+}
+
+.actions button:hover {
+    background: #8e44ad;
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+
+/* Mobile Responsive */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .app {
+        padding: 25px 20px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    .styles {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+}
+/* =========================
+   Birthday Animations
+   ========================= */
+
+/* Animation container */
+
+#animation-container {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 9999;
+}
+
+
+/* Floating balloons */
+
+.balloon {
+    position: absolute;
+
+    bottom: -120px;
+
+    width: 45px;
+    height: 58px;
+
+    border-radius: 50% 50% 45% 45%;
+
+    animation: floatBalloon linear forwards;
+
+    opacity: 0.9;
+}
+
+
+/* Balloon string */
+
+.balloon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 1px;
+    height: 55px;
+
+    background: #777;
+
+    left: 50%;
+    top: 57px;
+}
+
+
+/* Balloon animation */
+
+@keyframes floatBalloon {
+
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-55vh) rotate(8deg);
+    }
+
+    100% {
+        transform: translateY(-120vh) rotate(-8deg);
+        opacity: 0;
+    }
+
+}
+
+
+/* Floating hearts */
+
+.heart {
+    position: absolute;
+
+    bottom: -50px;
+
+    font-size: 28px;
+
+    animation: floatHeart linear forwards;
+
+    opacity: 0;
+}
+
+
+@keyframes floatHeart {
+
+    0% {
+        transform: translateY(0) scale(0.7);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-50vh) scale(1.1) rotate(10deg);
+    }
+
+    100% {
+        transform: translateY(-110vh) scale(0.8) rotate(-15deg);
+        opacity: 0;
+    }
+
+}
+
+
+/* Confetti */
+
+.confetti {
+    position: absolute;
+
+    top: -20px;
+
+    width: 10px;
+    height: 18px;
+
+    animation: fallConfetti linear forwards;
+}
+
+
+@keyframes fallConfetti {
+
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+
+}
+
+
+/* Wish card celebration */
+
+.wish-card.celebrate {
+    animation: celebrateCard 0.7s ease;
+}
+
+
+@keyframes celebrateCard {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.04) rotate(1deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* Selected wish style */
+
+.style-btn.selected {
+    border-color: #d63384;
+
+    background: #fff0f6;
+
+    color: #d63384;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 15px rgba(214, 51, 132, 0.15);
+}
+/* =========================
+   Extra Responsive Design
+   ========================= */
+
+/* Tablet */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 20px;
+        align-items: flex-start;
+    }
+
+    .app {
+        margin-top: 20px;
+        padding: 28px 22px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        font-size: 15px;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .app {
+        margin-top: 10px;
+        padding: 22px 16px;
+        border-radius: 20px;
+    }
+
+    header {
+        margin-bottom: 22px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input,
+    select {
+        padding: 13px;
+        font-size: 15px;
+    }
+
+    .styles {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .style-btn {
+        padding: 13px;
+        font-size: 14px;
+    }
+
+    #generate-btn {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .wish-card {
+        padding: 20px 15px;
+    }
+
+    .wish-card h2 {
+        font-size: 21px;
+    }
+
+    #wish-text {
+        font-size: 15px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .actions button {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+
+/* Very small phones */
+
+@media (max-width: 350px) {
+
+    header h1 {
+        font-size: 21px;
+    }
+
+    .app {
+        padding: 18px 12px;
+    }
+
+    .wish-card h2 {
+        font-size: 19px;
+    }
+}
+/* =========================
+   Download Card Button
+   ========================= */
+
+#download-btn {
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #ff6b9d,
+        #9b5de5
+    );
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+#download-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(155, 93, 229, 0.3);
+}
+/* =========================
+   Wish Style Themes
+   ========================= */
+
+body.theme-sweet {
+    background: linear-gradient(
+        135deg,
+        #ffd6e8,
+        #ffe5f1,
+        #f8d7ff
+    );
+}
+
+body.theme-funny {
+    background: linear-gradient(
+        135deg,
+        #fff3b0,
+        #ffd6a5,
+        #ffadad
+    );
+}
+
+body.theme-emotional {
+    background: linear-gradient(
+        135deg,
+        #dbeafe,
+        #e0e7ff,
+        #ede9fe
+    );
+}
+
+body.theme-romantic {
+    background: linear-gradient(
+        135deg,
+        #e9d5ff,
+        #fbcfe8,
+        #ddd6fe
+    );
+}
+
+
+/* Theme button colors */
+
+body.theme-sweet #generate-btn {
+    background: linear-gradient(
+        135deg,
+        #d63384,
+        #e85aad
+    );
+}
+
+body.theme-funny #generate-btn {
+    background: linear-gradient(
+        135deg,
+        #ff9f1c,
+        #ff6b6b
+    );
+}
+
+body.theme-emotional #generate-btn {
+    background: linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+}
+
+body.theme-romantic #generate-btn {
+    background: linear-gradient(
+        135deg,
+        #a855f7,
+        #ec4899
+    );
+}
+/* =========================
+   Birthday Card Preview
+   ========================= */
+
+.card-preview {
+    padding: 20px 10px;
+}
+
+.card-preview h2 {
+    font-size: 30px;
+    color: #d63384;
+    margin-bottom: 12px;
+}
+
+.card-preview h3 {
+    font-size: 25px;
+    color: #8e44ad;
+    margin-bottom: 18px;
+}
+
+.preview-decorations {
+    font-size: 25px;
+    margin: 10px 0 20px;
+    letter-spacing: 8px;
+}
+
+
+/* Preview name animation */
+
+#preview-name {
+    transition: 0.3s;
+}
+
+#preview-name.show-name {
+    animation: namePop 0.5s ease;
+}
+
+@keyframes namePop {
+
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+/* =========================
+   Reset Button
+   ========================= */
+
+#reset-btn {
+    padding: 11px 20px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: #d63384;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+#reset-btn:hover {
+    background: #fff0f6;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 18px rgba(214, 51, 132, 0.15);
+}
+/* =========================
+   Welcome Screen
+   ========================= */
+
+#welcome-screen {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        #ffd6e8,
+        #e4d7ff,
+        #d8f3ff
+    );
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
+}
+
+
+/* Welcome content */
+
+.welcome-content {
+    padding: 40px;
+
+    animation: welcomeAppear 1s ease;
+}
+
+
+/* Balloons */
+
+.welcome-balloons {
+    font-size: 55px;
+
+    margin-bottom: 15px;
+
+    animation: balloonBounce 2s ease-in-out infinite;
+}
+
+
+/* Cake */
+
+.welcome-cake {
+    font-size: 85px;
+
+    margin-bottom: 10px;
+
+    animation: cakeBounce 1.5s ease-in-out infinite;
+}
+
+
+/* Heading */
+
+.welcome-content h1 {
+    font-size: 48px;
+
+    color: #d63384;
+
+    margin-bottom: 12px;
+}
+
+
+/* Description */
+
+.welcome-content p {
+    color: #666;
+
+    font-size: 19px;
+
+    margin-bottom: 30px;
+}
+
+
+/* Start button */
+
+#start-btn {
+    padding: 16px 30px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        #d63384,
+        #8e44ad
+    );
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(142, 68, 173, 0.3);
+
+    transition: 0.3s;
+}
+
+
+#start-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+
+    box-shadow:
+        0 15px 30px rgba(142, 68, 173, 0.4);
+}
+
+
+/* Opening animation */
+
+@keyframes welcomeAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* Balloon animation */
+
+@keyframes balloonBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+
+}
+
+
+/* Cake animation */
+
+@keyframes cakeBounce {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+
+}
+
+
+/* Hide welcome screen */
+
+#welcome-screen.hide {
+    opacity: 0;
+
+    visibility: hidden;
+}
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+    .welcome-content {
+        padding: 20px;
+    }
+
+    .welcome-balloons {
+        font-size: 40px;
+    }
+
+    .welcome-cake {
+        font-size: 65px;
+    }
+
+    .welcome-content h1 {
+        font-size: 34px;
+    }
+
+    .welcome-content p {
+        font-size: 16px;
+    }
+
+    #start-btn {
+        font-size: 16px;
+
+        padding: 14px 24px;
+    }
+
+}
+/* =========================
+   Music Button
+   ========================= */
+
+#music-btn {
+    margin-top: 15px;
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: white;
+
+    color: #8e44ad;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    border: 2px solid #eadcf5;
+
+    transition: 0.3s;
+}
+
+#music-btn:hover {
+    transform: translateY(-2px);
+
+    background: #f8efff;
+
+    box-shadow:
+        0 6px 15px rgba(142, 68, 173, 0.15);
+}
+
+#music-btn.playing {
+    background: #8e44ad;
+
+    color: white;
+
+    border-color: #8e44ad;
+}
+
+/* =========================
+   Custom Message
+   ========================= */
+
+.custom-message-box {
+    margin-top: 20px;
+}
+
+.custom-message-box textarea {
+    width: 100%;
+
+    min-height: 110px;
+
+    padding: 14px;
+
+    margin-top: 8px;
+
+    border: 2px solid #eadcf5;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    resize: vertical;
+
+    outline: none;
+
+    transition: 0.3s;
+
+    box-sizing: border-box;
+}
+
+.custom-message-box textarea:focus {
+    border-color: #d63384;
+
+    box-shadow:
+        0 0 0 3px rgba(214, 51, 132, 0.1);
+}
+
+.custom-message-box small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #888;
+
+    font-size: 12px;
+}
+/* =========================
+   Character Counter
+   ========================= */
+
+.message-info {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 6px;
+
+    gap: 10px;
+}
+
+.message-info small {
+    color: #888;
+
+    font-size: 12px;
+}
+
+#character-count {
+    color: #888;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+/* Warning when almost full */
+
+#character-count.warning {
+    color: #e67e22;
+}
+
+
+/* Warning when full */
+
+#character-count.limit {
+    color: #e74c3c;
+}
+#welcome-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+/* =========================
+   Mobile Responsive Design
+   ========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 15px;
+        border-radius: 20px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    .style-buttons {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    button {
+        min-height: 48px;
+        font-size: 15px;
+    }
+
+    #start-btn {
+        width: 90%;
+    }
+
+    .wish-card {
+        padding: 20px 15px;
+    }
+
+    .wish-card h2 {
+        font-size: 25px;
+    }
+
+    .wish-card p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    textarea {
+        min-height: 120px;
+    }
+}
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        font-size: 15px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .style-buttons {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .style-btn {
+        width: 100%;
+    }
+
+    #generate-btn {
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ff9a1f, #ff5f6d);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 95, 109, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+#generate-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(255, 95, 109, 0.35);
+}
+
+#generate-btn:active {
+    transform: scale(0.97);
+}
+    .wish-card {
+        padding: 20px 15px;
+    }
+
+    .wish-card h2 {
+        font-size: 25px;
+    }
+
+    .wish-card p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    #welcome-screen {
+        min-height: 100vh;
+        padding: 30px 15px;
+    }
+
+    .welcome-content {
+        width: 100%;
+    }
+
+    .welcome-content h1 {
+        font-size: 38px;
+        text-align: center;
+    }
+
+    .welcome-content p {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    #start-btn {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+/* Loading Animation */
+
+.loading-message {
+    display: none;
+    text-align: center;
+    margin: 15px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #d63384;
+    animation: loadingPulse 1s infinite;
+}
+
+@keyframes loadingPulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.loading-message.show {
+    display: block;
+}
+/* ===============================
+   BIRTHDAY CARD THEMES
+   =============================== */
+
+.wish-card.theme-pink {
+    background: linear-gradient(135deg, #fff0f7, #ffd6e8) !important;
+}
+
+.wish-card.theme-blue {
+    background: linear-gradient(135deg, #e3f2fd, #bdeafe) !important;
+}
+
+.wish-card.theme-purple {
+    background: linear-gradient(135deg, #f3e8ff, #e9d5ff) !important;
+}
+
+.wish-card.theme-gold {
+    background: linear-gradient(135deg, #fff8e1, #ffecb3) !important;
+}
+/* ================================
+   CARD THEME SELECTOR
+   ================================ */
+
+.theme-section {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.theme-section h3 {
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.theme-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.theme-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: translateY(-2px);
+    border-color: #d63384;
+}
+
+.theme-btn.selected {
+    border-color: #d63384;
+    background: #fff0f7;
+    color: #d63384;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(214, 51, 132, 0.15);
+}
+
+
+/* ================================
+   BIRTHDAY CARD THEMES
+   ================================ */
+
+.wish-card.theme-pink {
+    background: linear-gradient(135deg, #fff0f7, #ffd6e8) !important;
+}
+
+.wish-card.theme-blue {
+    background: linear-gradient(135deg, #e3f2fd, #bde0fe) !important;
+}
+
+.wish-card.theme-purple {
+    background: linear-gradient(135deg, #f3e8ff, #dfc2ff) !important;
+}
+
+.wish-card.theme-gold {
+    background: linear-gradient(135deg, #fff8dc, #ffe49a) !important;
+}
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+
+    .app {
+        width: 100%;
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 26px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    .form-container {
+        padding: 15px;
+    }
+
+    .styles {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .theme-buttons {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .wish-card {
+        width: 100%;
+        min-height: auto;
+        padding: 25px 15px;
+    }
+
+    .wish-card h2 {
+        font-size: 28px;
+    }
+
+    .wish-card p {
+        font-size: 16px;
+    }
+
+    .card-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-actions button {
+        width: 100%;
+    }
+}
+
+
+/* 📲 Tablet */
+@media (min-width: 601px) and (max-width: 900px) {
+
+    .app {
+        width: 90%;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .wish-card {
+        width: 100%;
+    }
+}
+
+
+/* 💻 Desktop */
+@media (min-width: 901px) {
+
+    .app {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .wish-card {
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+/* ================================
+   BIRTHDAY CARD ENTRY ANIMATION
+================================ */
+
+.wish-card {
+    animation: cardAppear 0.8s ease-out;
+}
+
+@keyframes cardAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+/* =========================
+   Toast Notification
+   ========================= */
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+
+    transform: translate(-50%, 100px);
+
+    background: #333;
+    color: white;
+
+    padding: 12px 20px;
+
+    border-radius: 25px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: all 0.35s ease;
+
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform: translate(-50%, 0);
+}
+/* ========================================
+   FINAL BUTTON POLISH
+   ======================================== */
+
+button {
+    transition: all 0.25s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+
+/* ========================================
+   FORM INPUT POLISH
+   ======================================== */
+
+input,
+select,
+textarea {
+    transition: all 0.25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 3px rgba(214, 51, 132, 0.12);
+}
+
+
+/* ========================================
+   WISH CARD POLISH
+   ======================================== */
+
+.wish-card {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.wish-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ========================================
+   MUSIC BUTTON
+   ======================================== */
+
+#music-btn.playing {
+    animation: musicPulse 1.2s infinite;
+}
+
+@keyframes musicPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* ========================================
+   THEME BUTTON POLISH
+   ======================================== */
+
+.theme-btn {
+    transition: all 0.25s ease;
+}
+
+.theme-btn:hover {
+    transform: translateY(-3px);
+}
+
+.theme-btn.selected {
+    transform: scale(1.03);
+}
+/* Mobile Card Improvement */
+@media (max-width: 600px) {
+
+    .wish-card {
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 18px;
+    }
+
+    .card-preview {
+        padding: 20px 12px;
+        border-radius: 15px;
+    }
+
+    .card-preview h2 {
+        font-size: 24px;
+    }
+
+    .card-preview h3 {
+        font-size: 20px;
+    }
+
+    .card-preview p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+}
+/* Birthday Card Hover Effect */
+.card-preview {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-preview:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+/* =========================
+   APP FOOTER
+   ========================= */
+
+.app-footer {
+    display: block;
+    width: 100%;
+    clear: both;
+    text-align: center;
+    margin: 30px 0 20px 0;
+    padding: 15px 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #777;
+}
+/* ========================================
+   PREMIUM BIRTHDAY CARD DESIGN
+   ======================================== */
+
+.wish-card {
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Card inner preview */
+
+.card-preview {
+    border-radius: 22px;
+    padding: 35px 25px;
+    text-align: center;
+    position: relative;
+}
+
+/* Birthday title */
+
+.card-preview h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+/* Birthday message */
+
+.card-preview p {
+    font-size: 17px;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 15px auto;
+}
+
+/* Decorative glow */
+
+.card-preview::before {
+    content: "🎈";
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 35px;
+    animation: floatBalloon 3s ease-in-out infinite;
+}
+
+.card-preview::after {
+    content: "🎈";
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 35px;
+    animation: floatBalloon 3s ease-in-out infinite reverse;
+}
+
+/* Floating balloons */
+
+@keyframes floatBalloon {
+
+    0% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+}
+/* ========================================
+   PREMIUM BIRTHDAY THEMES
+   ======================================== */
+
+/* 🌸 PINK — Romantic & Sweet */
+.wish-card.theme-pink {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0 5%, transparent 6%),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,0.7) 0 4%, transparent 5%),
+        linear-gradient(135deg, #fff0f7 0%, #ffd6e8 50%, #f8c4dc 100%) !important;
+
+    border: 2px solid #f3a6c8;
+    box-shadow: 0 20px 50px rgba(214, 51, 132, 0.20);
+}
+
+.wish-card.theme-pink .card-preview h2 {
+    color: #c2185b;
+}
+
+.wish-card.theme-pink .card-preview p {
+    color: #7a2348;
+}
+
+
+/* 💙 BLUE — Elegant & Calm */
+.wish-card.theme-blue {
+    background:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,0.85) 0 5%, transparent 6%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.7) 0 4%, transparent 5%),
+        linear-gradient(135deg, #e8f5ff 0%, #c9e8ff 50%, #a9d5f5 100%) !important;
+
+    border: 2px solid #78bdf2;
+    box-shadow: 0 20px 50px rgba(30, 136, 229, 0.20);
+}
+
+.wish-card.theme-blue .card-preview h2 {
+    color: #1565c0;
+}
+
+.wish-card.theme-blue .card-preview p {
+    color: #174a70;
+}
+
+
+/* 💜 PURPLE — Magical & Creative */
+.wish-card.theme-purple {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0 5%, transparent 6%),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,0.7) 0 4%, transparent 5%),
+        linear-gradient(135deg, #f4eaff 0%, #e5d1ff 50%, #d5b8f5 100%) !important;
+
+    border: 2px solid #b58ae6;
+    box-shadow: 0 20px 50px rgba(123, 63, 168, 0.22);
+}
+
+.wish-card.theme-purple .card-preview h2 {
+    color: #6a1b9a;
+}
+
+.wish-card.theme-purple .card-preview p {
+    color: #4a2864;
+}
+
+
+/* ✨ GOLD — Luxury & Celebration */
+.wish-card.theme-gold {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0 5%, transparent 6%),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,0.7) 0 4%, transparent 5%),
+        linear-gradient(135deg, #fff9df 0%, #ffe9a8 50%, #f5d477 100%) !important;
+
+    border: 2px solid #d8ae38;
+    box-shadow: 0 20px 50px rgba(184, 134, 11, 0.22);
+}
+
+.wish-card.theme-gold .card-preview h2 {
+    color: #9a6b00;
+}
+
+.wish-card.theme-gold .card-preview p {
+    color: #654d16;
+}
+
+
+/* ========================================
+   PREMIUM THEME TRANSITION
+   ======================================== */
+
+.wish-card {
+    transition:
+        background 0.5s ease,
+        border-color 0.5s ease,
+        box-shadow 0.5s ease,
+        transform 0.3s ease;
+}
+/* ========================================
+   PREMIUM THEME BUTTONS
+   ======================================== */
+
+.theme-btn {
+    font-weight: 600;
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+}
+
+
+/* 🌸 Pink */
+.theme-btn[data-theme="pink"] {
+    background: #fff0f7;
+    border-color: #f3a6c8;
+    color: #c2185b;
+}
+
+.theme-btn[data-theme="pink"]:hover,
+.theme-btn[data-theme="pink"].selected {
+    background: #ffd6e8;
+    border-color: #c2185b;
+    transform: translateY(-3px);
+}
+
+
+/* 💙 Blue */
+.theme-btn[data-theme="blue"] {
+    background: #e8f5ff;
+    border-color: #78bdf2;
+    color: #1565c0;
+}
+
+.theme-btn[data-theme="blue"]:hover,
+.theme-btn[data-theme="blue"].selected {
+    background: #c9e8ff;
+    border-color: #1565c0;
+    transform: translateY(-3px);
+}
+
+
+/* 💜 Purple */
+.theme-btn[data-theme="purple"] {
+    background: #f4eaff;
+    border-color: #b58ae6;
+    color: #6a1b9a;
+}
+
+.theme-btn[data-theme="purple"]:hover,
+.theme-btn[data-theme="purple"].selected {
+    background: #e5d1ff;
+    border-color: #6a1b9a;
+    transform: translateY(-3px);
+}
+
+
+/* ✨ Gold */
+.theme-btn[data-theme="gold"] {
+    background: #fff9df;
+    border-color: #d8ae38;
+    color: #9a6b00;
+}
+
+.theme-btn[data-theme="gold"]:hover,
+.theme-btn[data-theme="gold"].selected {
+    background: #ffe9a8;
+    border-color: #9a6b00;
+    transform: translateY(-3px);
+}
+/* ========================================
+   PREMIUM GENERATE BUTTON
+   ======================================== */
+
+#generate-btn {
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(255, 95, 109, 0.25);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+#generate-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.05);
+    box-shadow: 0 12px 28px rgba(255, 95, 109, 0.35);
+}
+
+#generate-btn:active {
+    transform: scale(0.97);
+}
+
+/* Shimmer effect */
+#generate-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.35),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+#generate-btn:hover::after {
+    left: 130%;
+}
+/* ========================================
+   PREMIUM FORM FIELDS
+   ======================================== */
+
+.wish-form input,
+.wish-form select,
+.wish-form textarea {
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 13px 15px;
+    font-size: 15px;
+    background: #ffffff;
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease;
+}
+
+.wish-form input:hover,
+.wish-form select:hover,
+.wish-form textarea:hover {
+    border-color: #f3a6c8;
+}
+
+.wish-form input:focus,
+.wish-form select:focus,
+.wish-form textarea:focus {
+    outline: none;
+    border-color: #d63384;
+    box-shadow: 0 0 0 4px rgba(214, 51, 132, 0.10);
+    transform: translateY(-1px);
+}
+
+.wish-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.wish-form label {
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+/* ========================================
+   PREMIUM FORM TYPOGRAPHY
+   ======================================== */
+
+.wish-form label {
+    display: block;
+    color: #444;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+.wish-form h2,
+.wish-form h3 {
+    font-weight: 750;
+    letter-spacing: -0.2px;
+}
+
+.wish-form input::placeholder,
+.wish-form textarea::placeholder {
+    color: #aaa;
+    transition: opacity 0.2s ease;
+}
+
+.wish-form input:focus::placeholder,
+.wish-form textarea:focus::placeholder {
+    opacity: 0.5;
+}
+
+
+/* Theme heading */
+.themes-title,
+.theme-title {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+/* ========================================
+   PREMIUM WELCOME SCREEN
+   ======================================== */
+
+.welcome-screen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    padding: 45px 25px;
+    text-align: center;
+}
+
+
+/* Decorative floating emojis */
+
+.welcome-screen::before {
+    content: "🎈";
+    position: absolute;
+    left: 7%;
+    top: 18%;
+    font-size: 42px;
+    animation: welcomeFloat 3s ease-in-out infinite;
+}
+
+.welcome-screen::after {
+    content: "🎁";
+    position: absolute;
+    right: 7%;
+    bottom: 18%;
+    font-size: 40px;
+    animation: welcomeFloat 3s ease-in-out infinite reverse;
+}
+
+
+@keyframes welcomeFloat {
+
+    0% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+}
+
+
+/* Welcome title */
+
+.welcome-screen h1 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+
+/* Welcome description */
+
+.welcome-screen p {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+
+/* Start button */
+
+.welcome-screen button {
+    font-weight: 700;
+    border-radius: 14px;
+    padding: 14px 28px;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.welcome-screen button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.welcome-screen button:active {
+    transform: scale(0.97);
+}
