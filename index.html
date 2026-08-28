@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,206 +8,606 @@
     <title>Birthday Wish Generator</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- html2canvas for downloading birthday card -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
 </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <body>
-<!-- =========================
-     Welcome Screen
-     ========================= -->
 
-<div id="welcome-screen">
+    <!-- =========================
+         Welcome Screen
+         ========================= -->
 
-    <div class="welcome-content">
+    <div id="welcome-screen">
 
-        <div class="welcome-balloons">
-            🎈 🎈 🎈
+        <div class="welcome-content">
+
+            <div class="welcome-balloons">
+                🎈 🎈 🎈
+            </div>
+
+            <div class="welcome-cake">
+                🎂
+            </div>
+
+            <h1>Birthday Wishes</h1>
+
+            <p>
+                Make someone's birthday extra special! 💖
+            </p>
+
+            <button id="start-btn">
+                🎉 Start Creating
+            </button>
+
         </div>
-
-        <div class="welcome-cake">
-            🎂
-        </div>
-
-        <h1>Birthday Wishes</h1>
-
-        <p>Make someone's birthday extra special! 💖</p>
-<button id="start-btn" onclick="startApp()">
-    🎉 Start Creating
-</button>
-        
 
     </div>
 
-</div>
 
-    <div class="app">
+    <!-- =========================
+         Main App
+         ========================= -->
 
-        <!-- Header -->
-        <header>
-            <h1>🎈 Birthday Wishes 🎈</h1>
-            <p>Make someone's birthday extra special! 🎂</p>
-<button id="music-btn">
-    🎵 Play Birthday Music
+    <main class="app">
+
+        <!-- =========================
+             Header
+             ========================= -->
+
+        <header class="app-header">
+
+            <div class="header-decoration">
+                🎈 ✨ 🎈
+            </div>
+
+            <h1>
+                Birthday Wishes
+            </h1>
+
+            <p>
+                Create a beautiful personalized birthday card 🎂
+            </p>
+
+
+            <!-- Music Controls -->
+
+            <div class="music-panel">
+
+                <span class="music-title">
+                    🎵 Birthday Music
+                </span>
+
+                <div class="music-buttons">
+
+                    <button
+                        id="music-btn"
+                        type="button">
+                        ▶ Play
+                    </button>
+
+                    <button
+                        id="music-pause-btn"
+                        type="button">
+                        ⏸ Pause
+                    </button>
+
+                    <button
+                        id="music-stop-btn"
+                        type="button">
+                        ⏹ Stop
+                    </button>
+
+                    <label for="music-volume">
+                        🔊
+                    </label>
+
+                    <input
+                        type="range"
+                        id="music-volume"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.5"
+                    >
+
+                </div>
+
+            </div>
+
         </header>
 
 
-        <!-- Input Section -->
-        <section class="wish-form">
+        <!-- =========================
+             Creator Section
+             ========================= -->
 
-            <label for="name">Birthday Person's Name</label>
-            <input
-                type="text"
-                id="name"
-                placeholder="Enter name"
-            >
-<div <div class="custom-message-box">
+        <section class="creator-section">
 
-    <label for="custom-message">
-        ✍️ Custom Message
-    </label>
-
-    <textarea
-        id="custom-message"
-        rows="4"
-        maxlength="300"
-        placeholder="Write your own birthday message (optional)..."
-    ></textarea>
-
-    <div class="message-info">
-
-        <small>
-            Leave this empty to generate a message automatically.
-        </small>
-
-        <span id="character-count">
-            0 / 300
-        </span>
-
-    </div>
+            <div class="section-title">
+                <span>✨</span>
+                <h2>Create Your Birthday Card</h2>
+                <span>✨</span>
+            </div>
 
 
-</div>
+            <!-- Form -->
+
+            <div class="form-grid">
+
+                <!-- Birthday Person -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        🎂 Birthday Person's Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter name"
+                        autocomplete="off"
+                    >
+
+                </div>
 
 
-            <label for="relationship">Relationship</label>
-            <select id="relationship">
-                <option value="">Select relationship</option>
-                <option value="Friend">Friend</option>
-                <option value="Sister">Sister</option>
-                <option value="Brother">Brother</option>
-                <option value="Mother">Mother</option>
-                <option value="Father">Father</option>
-                <option value="Partner">Partner</option>
-                <option value="Other">Other</option>
-            </select>
+                <!-- Sender -->
+
+                <div class="form-group">
+
+                    <label for="sender">
+                        💌 From
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sender"
+                        placeholder="Your name"
+                        autocomplete="off"
+                    >
+
+                </div>
 
 
-            <label>Choose Wish Style</label>
+                <!-- Relationship -->
 
-            <div class="styles">
+                <div class="form-group">
 
-                <button type="button" class="style-btn">
-                    💕 Sweet
-                </button>
+                    <label for="relationship">
+                        💕 Relationship
+                    </label>
 
-                <button type="button" class="style-btn">
-                    😂 Funny
-                </button>
+                    <select id="relationship">
 
-                <button type="button" class="style-btn">
-                    🥰 Emotional
-                </button>
+                        <option value="">
+                            Select relationship
+                        </option>
 
-                <button type="button" class="style-btn">
-                    ✨ Romantic
-                </button>
+                        <option value="Friend">
+                            Friend
+                        </option>
+
+                        <option value="Best Friend">
+                            Best Friend
+                        </option>
+
+                        <option value="Sister">
+                            Sister
+                        </option>
+
+                        <option value="Brother">
+                            Brother
+                        </option>
+
+                        <option value="Mother">
+                            Mother
+                        </option>
+
+                        <option value="Father">
+                            Father
+                        </option>
+
+                        <option value="Partner">
+                            Partner
+                        </option>
+
+                        <option value="Other">
+                            Special Person
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Photo -->
+
+                <div class="form-group photo-group">
+
+                    <label for="photo-input">
+                        📷 Birthday Person's Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="photo-input"
+                        accept="image/*"
+                    >
+
+                    <div class="photo-status" id="photo-status">
+                        📷 No photo selected
+                    </div>
+
+                </div>
 
             </div>
-<div class="theme-section">
-    <h3>🎨 Choose Card Theme</h3>
 
-    <div class="theme-buttons">
 
-        <button type="button" class="theme-btn selected" data-theme="pink">
-            🌸 Pink
-        </button>
+            <!-- Photo Preview -->
 
-        <button type="button" class="theme-btn" data-theme="blue">
-            💙 Blue
-        </button>
+            <div class="upload-preview-wrapper">
 
-        <button type="button" class="theme-btn" data-theme="purple">
-            💜 Purple
-        </button>
+                <img
+                    id="photo-preview"
+                    class="photo-preview"
+                    alt="Photo Preview"
+                >
 
-        <button type="button" class="theme-btn" data-theme="gold">
-            ✨ Gold
-        </button>
+            </div>
 
-    </div>
-</div>
 
-<button id="generate-btn">
-    🎉 Generate Wish
-</button>
+            <!-- Wish Style -->
 
-<div id="loading-message" class="loading-message">
-    🎂 Creating your birthday wish... ✨
-</div>
-            
+            <div class="option-section">
+
+                <h3>
+                    💝 Choose Wish Style
+                </h3>
+
+                <div class="styles">
+
+                    <button
+                        type="button"
+                        class="style-btn selected"
+                        data-style="Sweet">
+                        💕 Sweet
+                    </button>
+
+                    <button
+                        type="button"
+                        class="style-btn"
+                        data-style="Funny">
+                        😂 Funny
+                    </button>
+
+                    <button
+                        type="button"
+                        class="style-btn"
+                        data-style="Emotional">
+                        🥰 Emotional
+                    </button>
+
+                    <button
+                        type="button"
+                        class="style-btn"
+                        data-style="Romantic">
+                        ✨ Romantic
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Card Theme -->
+
+            <div class="option-section">
+
+                <h3>
+                    🎨 Choose Card Theme
+                </h3>
+
+                <div class="theme-buttons">
+
+                    <button
+                        type="button"
+                        class="theme-btn selected"
+                        data-theme="pink">
+                        🌸 Pink
+                    </button>
+
+                    <button
+                        type="button"
+                        class="theme-btn"
+                        data-theme="blue">
+                        💙 Blue
+                    </button>
+
+                    <button
+                        type="button"
+                        class="theme-btn"
+                        data-theme="purple">
+                        💜 Purple
+                    </button>
+
+                    <button
+                        type="button"
+                        class="theme-btn"
+                        data-theme="gold">
+                        ✨ Gold
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Custom Message -->
+
+            <div class="custom-message-box">
+
+                <label for="custom-message">
+                    ✍️ Custom Message
+                </label>
+
+                <textarea
+                    id="custom-message"
+                    maxlength="300"
+                    rows="4"
+                    placeholder="Write your own birthday message (optional)...">
+                </textarea>
+
+                <div class="message-info">
+
+                    <small>
+                        Leave empty to generate a beautiful message automatically.
+                    </small>
+
+                    <span id="character-count">
+                        0 / 300
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Generate Button -->
+
+            <button
+                id="generate-btn"
+                class="generate-btn"
+                type="button">
+
+                🎉 Generate Birthday Card
+
+            </button>
+
+
+            <!-- Loading -->
+
+            <div
+                id="loading-message"
+                class="loading-message">
+
+                🎂 Creating your beautiful birthday card... ✨
+
+            </div>
 
         </section>
 
 
-       <section class="wish-card">
+        <!-- =========================
+             Birthday Card
+             ========================= -->
 
-    <div class="card-preview">
+        <section class="card-section">
 
-        <div class="preview-decorations">
-            🎈 💕 🎈
+            <div
+                id="birthday-card"
+                class="birthday-card theme-pink">
+
+                <!-- Decorative top -->
+
+                <div class="card-top-decoration">
+                    🎈 💕 ✨ 🎈 💕
+                </div>
+
+
+                <!-- Main Card Content -->
+
+                <div class="card-content">
+
+                    <!-- Photo Area -->
+
+                    <div class="card-photo-area">
+
+                        <div class="photo-frame">
+
+                            <div class="photo-placeholder">
+
+                                <span>🎂</span>
+
+                                <p>
+                                    Your Photo
+                                </p>
+
+                            </div>
+
+                            <img
+                                id="birthday-photo"
+                                class="birthday-photo"
+                                alt="Birthday Person"
+                            >
+
+                        </div>
+
+                        <div class="photo-hearts">
+                            💕 ✨ 💕
+                        </div>
+
+                    </div>
+
+
+                    <!-- Message Area -->
+
+                    <div class="card-message-area">
+
+                        <div class="mini-decoration">
+                            ✨ 🎈 ✨
+                        </div>
+
+                        <p class="card-small-title">
+                            A Special Wish For You
+                        </p>
+
+                        <h2>
+                            Happy Birthday!
+                        </h2>
+
+                        <h3 id="preview-name">
+                            Your Name 💖
+                        </h3>
+
+                        <div class="card-divider">
+                            ♥ ───────── ♥
+                        </div>
+
+                        <p
+                            id="wish-text"
+                            class="wish-text">
+
+                            Your birthday wish will appear here...
+
+                        </p>
+
+                        <div class="relationship-badge">
+
+                            💕
+                            <span id="card-relationship">
+                                Special Person
+                            </span>
+                            💕
+
+                        </div>
+
+                        <div class="sender-area">
+
+                            With love,
+                            <strong id="card-sender">
+                                Someone Special
+                            </strong>
+                            💗
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Bottom Decoration -->
+
+                <div class="card-bottom-decoration">
+
+                    <span>🎂</span>
+                    <span>🎁</span>
+                    <span>💕</span>
+                    <span>🎉</span>
+                    <span>✨</span>
+
+                </div>
+
+
+                <!-- Floating Decorations -->
+
+                <div class="card-decoration decoration-1">
+                    ✨
+                </div>
+
+                <div class="card-decoration decoration-2">
+                    💕
+                </div>
+
+                <div class="card-decoration decoration-3">
+                    🎈
+                </div>
+
+                <div class="card-decoration decoration-4">
+                    🌸
+                </div>
+
+            </div>
+
+
+            <!-- Card Actions -->
+
+            <div class="actions">
+
+                <button
+                    id="copy-btn"
+                    class="action-copy"
+                    type="button">
+                    📋 Copy Wish
+                </button>
+
+                <button
+                    id="share-btn"
+                    class="action-share"
+                    type="button">
+                    📤 Share
+                </button>
+
+                <button
+                    id="download-btn"
+                    class="action-download"
+                    type="button">
+                    🖼️ Download Card
+                </button>
+
+                <button
+                    id="reset-btn"
+                    class="action-reset"
+                    type="button">
+                    🔄 Create Another Wish
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Toast -->
+
+        <div
+            id="toast"
+            class="toast">
+
+            ✅ Done!
+
         </div>
 
-        <h2>🎂 Happy Birthday!</h2>
 
-        <h3 id="preview-name">Your Name 💖</h3>
+        <!-- Footer -->
 
-        <p id="wish-text">
-            Your birthday wish will appear here...
-        </p>
+        <footer class="app-footer">
 
-        <div class="preview-decorations">
-            🎉 💕 🎈 ✨ 🎂
-        </div>
+            🎂 Made with ❤️ for special birthdays
 
-    </div>
+        </footer>
 
-    <div class="actions">
-
-        <button id="copy-btn">
-            📋 Copy
-        </button>
-
-        <button id="share-btn">
-            📤 Share
-        </button>
-
-        <button id="download-btn">
-            🖼️ Download Card
-        </button>
-<button id="reset-btn">
-    🔄 Create Another Wish
-</button>
-
-    </div>
+    </main>
 
 
     <!-- JavaScript -->
+
     <script src="script.js"></script>
-<div id="toast" class="toast">
-    ✅ Birthday wish copied!
-</div>
-<footer class="app-footer">
-    🎂 Made with ❤️ for special birthdays
-</footer>
 
 </body>
+
 </html>
