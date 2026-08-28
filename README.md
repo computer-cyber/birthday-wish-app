@@ -56,6 +56,8 @@ The app includes four beautiful themes:
 7. Click **Generate Wish**.
 8. Copy, share, or download the birthday card.
    
+## 📸 Screenshots
+
 ### 🎉 Welcome Screen
 
 The beautiful welcome screen of the Birthday Wish Generator.
