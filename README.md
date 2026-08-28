@@ -55,16 +55,7 @@ The app includes four beautiful themes:
 6. Choose a card theme.
 7. Click **Generate Wish**.
 8. Copy, share, or download the birthday card.
-
-## 📂 Project Structure
-
-```text
-birthday-wish-app/
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-## 📸 Screenshots
+   ## 📸 Screenshots
 
 ### 🎉 Welcome Screen
 
@@ -84,4 +75,12 @@ A personalized birthday card with the selected photo, theme, message, and relati
 
 ![Generated Birthday Card](birthday-card.png.png)
 
-<img width="960" height="540" alt="image" src="https://github.com/user-attachments/assets/88bd35e1-cde5-46ff-b05f-b6f19b19970c" />
+## 📂 Project Structure
+
+```text
+birthday-wish-app/
+├── index.html
+├── style.css
+├── script.js
+└── README.md
+
